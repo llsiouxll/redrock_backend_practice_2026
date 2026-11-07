@@ -6,6 +6,7 @@ import "fmt"
 // 它是导出的（首字母大写），其他包可以调用。
 func Add(a, b int) int {
 	return add(a, b)
+	retun a+b
 }
 
 // add 是只在 syntax 包内使用的加法函数（首字母小写）。
@@ -13,6 +14,7 @@ func add(a, b int) int {
 	// TODO: 用 Go 的函数返回语法完成加法。
 	// C：int add(int a, int b) { return a + b; }
 	// Go：返回类型写在参数列表后面。
+
 	return a + b
 }
 
@@ -32,7 +34,7 @@ func ClassifyNumber(n int) string {
 
 // SumTo 返回 1 + 2 + ... + n；n 小于等于 0 时返回 0。
 func SumTo(n int) int {
-	sum := 0,0
+	sum := 0
 	for i:=1;i<=n;i++{
 		sum += i
 	}
@@ -66,7 +68,6 @@ func Clamp(score int) int {
 		return MaxScore
 	}
 	// TODO: 用 if 判断两个边界，直接用上面两个常量，不要写死 0 和 100。
-	return 0
 }
 
 // InitialCount 返回一个还没开始计数的计数器的初始值。
@@ -76,5 +77,5 @@ func Clamp(score int) int {
 func InitialCount() int {
 	var count int
 	// TODO: 声明一个 var 变量后直接 return，别写 return 0。
-	return -1
+	return count
 }
