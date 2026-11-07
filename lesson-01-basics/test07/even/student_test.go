@@ -1,5 +1,4 @@
 package even
-
 import "testing"
 
 // TestIsEven 是需要由你亲手写完的第一个 Go 测试。
@@ -12,21 +11,19 @@ import "testing"
 // 期望的行为：2 是偶数，3 不是，0 是偶数，-2 也是偶数。
 func TestIsEven(t *testing.T) {
 	if !IsEven(2) {
-		t.Errorf("IsEven(2) = false, want true")
+		t.Error("IsEven(2) = false, want true")
 	}
 	if IsEven(3) {
 		t.Errorf("IsEven(3) = true, want false")
 	}
 	if !IsEven(0) {
-		t.Errorf("IsEven(0) = false, want true")
+		t.Fatal("IsEven(0) = false, want true")
 	}
 	if !IsEven(-2) {
-		t.Errorf("IsEven(-2) = false, want true")
+		t.Fatalf("IsEven(-2) = false, want true")
 	}
 }
 	//		t.Errorf("IsEven(2) = false, want true")
 	//	}
 	//
 	// t.Error 报告失败但继续往下跑，t.Fatal 报告失败并立刻结束这个测试。
-	t.Fatal("TODO: 完成 TestIsEven")
-}
