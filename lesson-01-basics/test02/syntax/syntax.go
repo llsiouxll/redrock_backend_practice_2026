@@ -6,7 +6,7 @@ import "fmt"
 // 它是导出的（首字母大写），其他包可以调用。
 func Add(a, b int) int {
 	return add(a, b)
-	retun a+b
+	return a+b
 }
 
 // add 是只在 syntax 包内使用的加法函数（首字母小写）。
@@ -50,7 +50,7 @@ func Describe(name string, age int) string {
 	// TODO: 用 fmt.Sprintf 拼出这句话。
 	// Sprintf 和 Printf 的格式化规则一样，但它返回字符串而不是打印。
 	// 字符串用 %s，整数用 %d。
-	return fmt.Sprintf(" %s 今年 %d 岁", name, age)
+	return fmt.Sprintf("%s 今年 %d 岁", name, age)
 }
 
 // MaxScore 是导出的常量，其他包可以用 syntax.MaxScore 读到它。
@@ -68,6 +68,7 @@ func Clamp(score int) int {
 		return MaxScore
 	}
 	// TODO: 用 if 判断两个边界，直接用上面两个常量，不要写死 0 和 100。
+	return score
 }
 
 // InitialCount 返回一个还没开始计数的计数器的初始值。
