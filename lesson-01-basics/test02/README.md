@@ -30,7 +30,7 @@ int add(int a, int b) { return a + b; }   // C：返回类型在前，参数是�
 - **零值**：`var` 声明但不赋值时，Go 会给一个零值——`int` 是 `0`，`string` 是 `""`，`bool` 是 `false`。
   C 里不初始化的局部变量是垃圾值，Go 不是，这是两边最容易踩的差别之一。
   `InitialCount` 考的就是这个，所以直接 `return 0` 不算过（测试会读你的源码）。
-- **常量**：`const MaxScore = 100` 导出，`const minScore = 0` 不导出。可见性对常量一样适用。
+- **常量**：`c样onst MaxScore = 100` 导出，`const minScore = 0` 不导出。可见性对常量一适用。
 - 条件和循环的条件**不写小括号**：`if n > 0 {`、`for i := 1; i <= n; i++ {`。
 - 左大括号 `{` 必须和 `func` / `if` / `for` 在同一行，否则自动插入的分号会让编译失败。
 - 行尾不写分号，但 `for` 的三段之间仍然用分号。
