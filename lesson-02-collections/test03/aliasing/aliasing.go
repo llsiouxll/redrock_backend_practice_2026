@@ -22,7 +22,7 @@ func Head(values []int, n int) []int {
 func Branch(base []string, a, b string) ([]string, []string) {
 	// BUG: base 的 cap 有富余时，两次 append 写的是同一个位置，
 	// 第二次会把第一次的结果覆盖掉。
-	safebase :=base[:len(base):len(base)]
+	safebase := base[:len(base):len(base)]
 	left := append(safebase, a)
 	right := append(safebase, b)
 	return left, right
@@ -32,10 +32,10 @@ func Branch(base []string, a, b string) ([]string, []string) {
 //
 // 调用方传进来的 values 不能被修改。
 func RemoveIf(values []int, drop func(int) bool) []int {
-	result := make([]int,0,len(values))
-	for _,v :=rang values{
-		if !drop(v){
-			result = append(result,v)
+	result := make([]int, 0, len(values))
+	for _, v := range values {
+		if !drop(v) {
+			result = append(result, v)
 		}
 	}
 	// BUG 1: 边遍历边删除，删掉 i 之后下一个元素挪到了 i，却被 i++ 跳过。
@@ -55,8 +55,8 @@ type Student struct {
 func Pointers(students []Student) []*Student {
 	result := make([]*Student, 0, len(students))
 	// BUG: range 给出的 student 是元素的副本，&student 指向的是副本，不是切片里的那一格。
-	for i:= range students {
-		result = append(result, &student[i])
+	for i := range students {
+		result = append(result, &students[i])
 	}
 	return result
 }
