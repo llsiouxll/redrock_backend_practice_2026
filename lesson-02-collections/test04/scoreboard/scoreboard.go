@@ -1,11 +1,21 @@
 package scoreboard
 
+import "sort"
+
 // Totals 把每位学生的多次成绩累加到一张新 map。
 // records 本身不能被修改；某个学生没有成绩时，总分为 0。
 func Totals(records map[string][]int) map[string]int {
+	result := make(map[string]int)
+	for name, score := range records {
+		sum := 0
+		for _, v := range score {
+			sum += v
+		}
+		result[name] = sum
+	}
 	// TODO: 创建结果 map，遍历 records，把每条成绩加起来。
 	// 不要直接改 records 里的切片。
-	return nil
+	return result
 }
 
 // Entry 是排行榜上的一行。
@@ -17,6 +27,22 @@ type Entry struct {
 // Top 返回分数最高的前 n 名。
 // 分数相同时按姓名升序；n <= 0 时返回空结果；n 大于人数时返回全部。
 func Top(totals map[string]int, n int) []Entry {
+	if n <= 0 {
+		return []Entry{}
+	}
+	var list []Entry
+	for name, score := range totals {
+		list = append(list, Entry{Name: name, Score: score})
+	}
+	sort.Slice(list, func(i, j int) bool {
+		if list[i].Score != list[j].Score {
+			return list[i].Score > list[j].Score
+		}
+		return list[i].Name < list[j].Name
+	})
+	if n > len(list) {
+		return list
+	}
 	// TODO: 把 map 转成切片，按「分数降序、姓名升序」排序，再截取前 n 个。
-	return nil
+	return list[:n]
 }
