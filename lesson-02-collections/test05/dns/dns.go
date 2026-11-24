@@ -48,7 +48,32 @@ func (r *Resolver) Add(domain, ip string) error {
 	if domain == "" || ip == "" {
 		return ErrInvalid
 	}
-	// TODO
+
+	// 1. 修复零值可用问题：如果 map 为 nil，先初始化
+	if r.forward == nil {
+		r.forward = make(map[string]string)
+	}
+	if r.reverse == nil {
+		r.reverse = make(map[string]map[string]struct{})
+	}
+
+	// 2. 处理同一个域名再次 Add 的情况：先清理旧的反向映射
+	if oldIp, ok := r.forward[domain]; ok {
+		delete(r.reverse[oldIp], domain)
+		if len(r.reverse[oldIp]) == 0 {
+			delete(r.reverse, oldIp)
+		}
+	}
+
+	// 3. 更新正向映射
+	r.forward[domain] = ip
+
+	// 4. 更新反向映射
+	if r.reverse[ip] == nil {
+		r.reverse[ip] = make(map[string]struct{})
+	}
+	r.reverse[ip][domain] = struct{}{}
+
 	return nil
 }
 
@@ -65,19 +90,27 @@ func (r *Resolver) Lookup(domain string) (string, bool) {
 
 // Remove 删除一个域名；不存在时什么也不做。反查结果也要同步删除。
 func (r *Resolver) Remove(domain string) {
+	// 1. 修复规范化问题：删除前必须先规范化
 	domain = Normalize(domain)
 	if domain == "" {
 		return
 	}
 
+	// 2. 查找到对应的 IP
 	ip, ok := r.forward[domain]
 	if !ok {
 		return
 	}
 
+	// 3. 删除正向映射
 	delete(r.forward, domain)
-	r.removeReverse(ip, domain)
 
+	// 4. 修复同步问题：同步删除反向映射
+	delete(r.reverse[ip], domain)
+	// 如果该 IP 下没有其他域名了，顺手把 IP 从反向 map 中删掉，防止内存泄漏
+	if len(r.reverse[ip]) == 0 {
+		delete(r.reverse, ip)
+	}
 }
 
 // Len 返回记录的域名数量。
